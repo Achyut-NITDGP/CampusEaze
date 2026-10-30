@@ -1,11 +1,8 @@
 from fastapi import FastAPI, HTTPException, Depends, status
+from fastapi.middleware.cors import CORSMiddleware
 import secrets
 import jwt
 import hashlib
-import os
-import dotenv
-
-dotenv.load_dotenv()
 
 
 app = FastAPI(
@@ -14,6 +11,14 @@ app = FastAPI(
     version= '1.0'
     )
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[FRONTEND_ORIGIN, "http://127.0.0.1:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 
 
@@ -21,6 +26,4 @@ app = FastAPI(
 def root():
     return {'status' : 'running'}
 
-@app.get('/login')
-def auth():
-    return
+
